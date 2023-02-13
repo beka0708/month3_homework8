@@ -32,5 +32,5 @@ async def threeroom(message: types.Message):
 async def address(call: types.CallbackQuery):
     await call.message.answer(f'Кыргызская Республика 720004\n'
                         f'г. Бишкек, ул. Асанбай 27/1\n'
-                        f'Тел.: +996 (507) 222-33-22\n'
+                        f'Тел.: +996 (507) 22-33-22\n'
                         f'email: info@house.kg\n')
