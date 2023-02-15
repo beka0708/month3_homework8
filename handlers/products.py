@@ -17,6 +17,11 @@ kb.add(
 
 
 async def show_products(call: types.CallbackQuery):
+    """
+    doc strings
+    :param call:
+    :return:
+    """
     # chat_id = message.from_user.id
     await call.message.answer(
         # chat_id=chat_id,
