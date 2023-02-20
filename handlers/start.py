@@ -25,7 +25,7 @@ async def help(message: types.Message):
     await message.answer(
         """
         /start 
-/help - Список команд
+/help - Список команд:
 /myinfo - Данные пользователя
 /gallery - random photos
 /products - Наши услуги
