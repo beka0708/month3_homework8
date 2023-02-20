@@ -3,13 +3,13 @@ from config import bot
 
 kb = types.ReplyKeyboardMarkup()
 kb.add(
-    types.KeyboardButton("Куплю недвижимость")
+    types.KeyboardButton("Куплю недвижимость ")
 )
 kb.add(
-    types.KeyboardButton("Продам недвижимость")
+    types.KeyboardButton("Продам недвижимость ")
 )
 kb.add(
-    types.KeyboardButton("Сниму квартиру")
+    types.KeyboardButton("Сниму квартиру ")
 )
 kb.add(
     types.KeyboardButton("Сдаю квартиру")
