@@ -2,17 +2,19 @@ import sqlite3
 from pathlib import Path
 
 from aiogram.types import message
-
 from config import bot
 import random
-def db_init():
 
+
+def db_init():
     DB_PATH = Path(__file__).parent.parent
     DB_FILE = 'db.sqlite'
-    global db, cur #orm
-    db = sqlite3.connect(DB_PATH/DB_FILE)
+    global db, cur  # orm
+    db = sqlite3.connect(DB_PATH / DB_FILE)
     cur = db.cursor()
     print(DB_PATH)
+
+
 def create_tables():
     cur.execute("""CREATE TABLE IF NOT EXISTS products(
     product_id INTEGER PRIMARY KEY,
@@ -33,39 +35,47 @@ def create_tables():
 
     db.commit()
 
+
 def delete_tables():
     cur.execute("""DROP TABLE IF EXISTS products""")
     db.commit()
+
 
 def populate_products():
     cur.execute("""INSERT INTO products (name, price, photo) VALUES
                             ('The Witcher book 1', 500, 'images/witcher1.jpeg'),
                             ('The Witcher book 2', 600, 'images/witcher2.jpeg'),
-                            ('The Witcher book 3', 700, 'images/witcher3.jpeg')
-    """)
+                            ('The Witcher book 3', 700, 'images/witcher3.jpeg') 
+                            """)
     db.commit()
 
-def get_products():
-    cur.execute("""SELECT name, price, photo from products""")
-    all_products = cur.fetchall()
 
-    name, price, photo = random.choice(all_products)
-    text = f'{name} {price} {photo} Caption: Books'
+def get_products():
+    cur.execute("""SELECT * from products""")
+    all_products = cur.fetchall()
+    print(all_products)
+    return all_products
+
+    # name, price, photo = random.choice(all_products)
+    # text = f'{name} {price} {photo} Caption: Books'
     # bot.send_message(message.from_user.id, text)
 
-    # print(all_products)
-    return text
+    # return text
 
+# def get_products(message):
+#     for ret in cur.execute("""SELECT * from products""").fetchall():
+#
+#         await bot.send_photo(message.from_user.id, ret[0], f'{ret[1]}\nОписание: {ret[2]}\n цена: {ret[-1]}')
 
 # def get_products():
-    # cur.execute("SELECT * FROM products")
-    # bookcat = cur.fetchall()
-    #
-    # for x in bookcat:
-    #     print(x)
-    #
-    # for ret in cur.execute("""SELECT * from products""").fetchall():
-    #     await bot.send_message()
+# cur.execute("SELECT * FROM products")
+# bookcat = cur.fetchall()
+#
+# for x in bookcat:
+#     print(x)
+#
+# for ret in cur.execute("""SELECT * from products""").fetchall():
+#     await bot.send_message()
 
 
 if __name__ == "__main__":

@@ -14,11 +14,11 @@ async def grafik(message: types.Message):
     """)
 
 async def catalog(message: types.Message):
-    aa = get_products()
+    # aa = get_products()
     # await message.reply("""
     # Каталог книг
     # """)
-    await message.answer(text=aa )
+    await message.answer("""aaa""")
 
 
 
