@@ -1,9 +1,11 @@
 from aiogram import types
 from config import scheduler, bot
 
+
 async def notify_command_handler(message: types.Message):
-    scheduler.add_job(notify, 'interval', seconds=1, args=(message.from_user.id,)) # tuple with one element
+    scheduler.add_job(notify, 'interval', seconds=0, args=(message.from_user.id,))  # tuple with one element
     await message.answer("Принято!")
+
 
 async def notify(user_id: int, message: types.Message):
     await message.answer("Введите напоминалку:")

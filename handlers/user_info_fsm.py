@@ -87,6 +87,6 @@ async def not_mail(callback: CallbackQuery):
     await callback.answer()
     message = callback.message
     await message.bot.send_message(
-        text=f'{callback.from_user.first_name} See you soon!',
+        text=f'{callback.from_user.first_name} Bye! See you soon!',
         chat_id=message.chat.id
     )
