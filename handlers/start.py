@@ -3,7 +3,7 @@ import random
 
 kb = types.InlineKeyboardMarkup()
 kb.add(types.InlineKeyboardButton(
-    text="Наши услуги:",
+    text="О нас",
     callback_data="products"
 ))
 kb.add(types.InlineKeyboardButton(
@@ -15,7 +15,8 @@ kb.add(types.InlineKeyboardButton(
 async def start(message:types.Message):
     user = message.from_user.full_name
     await message.answer(
-        f'Приветствуем, {user}!\n Добро пожаловать в агентство недвижимости <<House.kg>>!')
+        f'Приветствуем, {user}!\n' 
+        f'Добро пожаловать в книжный магазин <<bookaddicts.kg>>!')
     await message.reply(
         f'Выберите команду:',
         reply_markup=kb
@@ -24,11 +25,11 @@ async def start(message:types.Message):
 async def help(message: types.Message):
     await message.answer(
         """
-        /start 
+        /start - Старт
 /help - Список команд:
 /myinfo - Данные пользователя
 /gallery - random photos
-/products - Наши услуги
+/aboutus - О нас
         """
     )
 # @dp.message_handler(commands=["myinfo"])
@@ -46,9 +47,10 @@ async def myinfo(message: types.Message):
     # await message.delete()
 # @dp.message_handler(commands=["picture"])
 async def gallery(message: types.Message):
-    photos = ['images/house1.jpeg','images/house2.jpeg','images/house3.jpeg','images/house4.jpeg']
+    photos = ['images_rnd/book1.jpeg','images_rnd/book2.jpeg','images_rnd/book3.jpeg','images_rnd/book4.jpeg']
     with open(random.choice(photos), 'rb') as photos:
         await message.answer_photo(
             photo = photos,
-            caption = 'houses'
+            caption = 'books'
         )
+
