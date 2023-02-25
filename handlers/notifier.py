@@ -9,24 +9,35 @@ class UserText(StatesGroup):
 
 
 async def start_reminder(message: types.Message):
+    """
+    Запрашиваем текст напоминалки у пользователя
+    """
     await UserText.text.set()
     await message.answer("Input your reminder:")
 
 
 async def process_text(message: types.Message, state: FSMContext):
+    """
+    Сохраняем текст напоминалки без слова <напомнить> и
+    """
     async with state.proxy() as data:
         text = message.text
-        text_res = text.split(' ', 1)[1]
-        data['text']=text_res
-        print(data)
-        await message.answer("Принято!")
         key_word = "напомнить"
-        if key_word in data['text']:
-            print(data['text'])
-            # data['text'] = data['text'].replace(data['text'], key_word, "")
+        await message.answer("Принято!")
+        if key_word in text:
+            text_res = text.split(' ', 1)[1]
+            data['text']=text_res
+
             await message.answer(f"your reminder text is: <<{data['text']}>>")
         else:
+            data['text'] = text
             await message.answer(f"your reminder text is: <<{data['text']}>>")
+        # if key_word in data['text']:
+        #     print(data['text'])
+        #     # data['text'] = data['text'].replace(data['text'], key_word, "")
+        #     await message.answer(f"your reminder text is: <<{data['text']}>>")
+        # else:
+        #     await message.answer(f"your reminder text is: <<{data['text']}>>")
 
     await state.finish()
     async def notify(user_id: int):
