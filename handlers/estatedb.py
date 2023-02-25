@@ -32,5 +32,5 @@ async def catalog(message: types.Message):
 
 async def lot3(message: types.Message):
     await message.reply("""
-    электронные книги
+    электронные книги, будут позже
 """)

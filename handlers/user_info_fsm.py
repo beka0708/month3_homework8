@@ -12,10 +12,16 @@ class UserForm(StatesGroup):
 
 
 async def start_user_dialog(message: types.Message):
+    """
+    Обработчик чтоб принять двнные о пользователе
+    """
     await UserForm.name.set()
     await message.answer("Please input your name and last name:")
 
 async def process_name(message: types.Message, state: FSMContext):
+    """
+    сохраняем данные об имени
+    """
     async with state.proxy() as data:
         data['name'] = message.text
     await UserForm.next()
@@ -23,13 +29,18 @@ async def process_name(message: types.Message, state: FSMContext):
 
 
 async def process_age(message: types.Message, state: FSMContext):
+    """
+    обработчик для проверки возраста на цифры
+    """
     age = message.text
     if not age.isnumeric():
         await message.reply("Wrong data! Input only numbers!")
         await message.answer("How old are you?")
     else:
         async with state.proxy() as data:
-            # сохраняем данные о возрасте
+            """
+            сохраняем данные о возрасте
+            """
             data['age'] = age
         await UserForm.next()
         await message.answer("Input your address: ")
@@ -37,7 +48,9 @@ async def process_age(message: types.Message, state: FSMContext):
 
 async def process_address(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        # сохраняем данные об адресе
+        """
+        сохраняем данные об адресе
+        """
         data['address'] = message.text
         kb = types.ReplyKeyboardMarkup(resize_keyboard=True)
         buttons = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
@@ -49,8 +62,10 @@ async def process_address(message: types.Message, state: FSMContext):
 
 
 async def process_day(message: types.Message, state: FSMContext):
+    """
+    сохраяем данные о дне недели для получения товара
+    """
     async with state.proxy() as data:
-        # сохраяем данные о дне недели для получения товара
         data['day'] = message.text
         buttons = [
             types.InlineKeyboardButton(text='Yes', callback_data='yes'),
@@ -66,7 +81,7 @@ async def process_day(message: types.Message, state: FSMContext):
 
 async def mail(callback: CallbackQuery):
     """
-    обработчик, чтоб принять сообщение
+    обработчик чтоб принять сообщение
     """
     await callback.answer()
     message = callback.message
@@ -81,7 +96,7 @@ async def mail(callback: CallbackQuery):
 
 async def not_mail(callback: CallbackQuery):
     """
-    обработчик, чтоб попращаться
+    обработчик чтоб попращаться
     """
     await callback.answer()
     message = callback.message

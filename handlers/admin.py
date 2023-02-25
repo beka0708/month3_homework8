@@ -49,8 +49,7 @@ async def check_bad_words(message: types.Message):
 
 async def ban_user(callback: CallbackQuery):
     """
-    обработчик, чтоб банить пользователя в чате
-    через команду
+    обработчик чтоб банить пользователя в чате через команду
     """
     await callback.answer()
     message = callback.message
