@@ -15,7 +15,9 @@ async def start_reminder(message: types.Message):
 
 async def process_text(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['text'] = message.text
+        text = message.text
+        text_res = text.split(' ', 1)[1]
+        data['text']=text_res
         print(data)
         await message.answer("Принято!")
         key_word = "напомнить"
