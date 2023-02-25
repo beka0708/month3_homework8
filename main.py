@@ -1,6 +1,6 @@
 from aiogram import executor
 from aiogram.dispatcher.filters import Text
-from config import dp, scheduler
+from config import dp, scheduler, bot
 from handlers.start import (start, help, myinfo, gallery)
 from handlers.products import (show_products, region, address)
 from handlers.estatedb import (grafik, catalog, lot3)
@@ -18,13 +18,10 @@ from handlers.user_info_fsm import (
 )
 
 from db.base import (db_init, create_tables, populate_products, delete_tables, get_products)
-from handlers.notifier import (notify, notify_command_handler)
+from handlers.notifier import (UserText, start_reminder, process_text)
+
 
 async def on_startup(_):
-    # base.db_init()
-    # base.create_tables()
-    # base.populate_products()
-    # base.get_products()
     db_init()
     create_tables()
     populate_products()
@@ -45,8 +42,11 @@ if __name__ == "__main__":
     dp.register_callback_query_handler(mail, Text(startswith="yes"))
     dp.register_callback_query_handler(not_mail, Text(startswith="no"))
 
+    dp.register_message_handler(start_reminder, commands=["notify"])
+    dp.register_message_handler(process_text, state=UserText.text)
     # dp.register_message_handler(notify_command_handler, commands=["notify"])
     # dp.register_message_handler(notify, commands=["notify"])
+
 
     dp.register_message_handler(start, commands=["start"])
     dp.register_message_handler(help, commands=["help"])

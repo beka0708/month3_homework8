@@ -56,27 +56,6 @@ def get_products():
     print(all_products)
     return all_products
 
-    # name, price, photo = random.choice(all_products)
-    # text = f'{name} {price} {photo} Caption: Books'
-    # bot.send_message(message.from_user.id, text)
-
-    # return text
-
-# def get_products(message):
-#     for ret in cur.execute("""SELECT * from products""").fetchall():
-#
-#         await bot.send_photo(message.from_user.id, ret[0], f'{ret[1]}\nОписание: {ret[2]}\n цена: {ret[-1]}')
-
-# def get_products():
-# cur.execute("SELECT * FROM products")
-# bookcat = cur.fetchall()
-#
-# for x in bookcat:
-#     print(x)
-#
-# for ret in cur.execute("""SELECT * from products""").fetchall():
-#     await bot.send_message()
-
 
 if __name__ == "__main__":
     print(__name__)

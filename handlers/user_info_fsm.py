@@ -15,7 +15,6 @@ async def start_user_dialog(message: types.Message):
     await UserForm.name.set()
     await message.answer("Please input your name and last name:")
 
-
 async def process_name(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['name'] = message.text
@@ -62,7 +61,7 @@ async def process_day(message: types.Message, state: FSMContext):
         print(data)
 
     await state.finish()
-    await message.answer("Thank you for your order! Do you want leave a review?",
+    await message.answer(f"Thank you for your order! Do you want leave a review {data['name']} ?",
                          reply_markup=kb)
 
 async def mail(callback: CallbackQuery):
