@@ -50,6 +50,21 @@ def populate_products():
     db.commit()
 
 
+def create_order(data):
+    data = data.as_dict()
+    print(data)
+    cur.execute(
+        """INSERT INTO orders(product_id, user_name, address) VALUES(
+        :product_id,
+        :user_name,
+        :address)""",
+        {'product_id':data['product_id'],
+        'user_name':data['name'],
+        'address':data['address']}
+    )
+    db.commit()
+
+
 def get_products():
     cur.execute("""SELECT * from products""")
     all_products = cur.fetchall()

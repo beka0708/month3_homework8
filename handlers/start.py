@@ -17,7 +17,7 @@ async def start(message:types.Message):
     await message.answer(
         f'Приветствуем, {user}!\n' 
         f'Добро пожаловать в книжный магазин <<bookaddicts.kg>>!')
-    await message.reply(
+    await message.answer(
         f'Выберите команду:',
         reply_markup=kb
     )

@@ -2,21 +2,34 @@ from aiogram import types
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher import FSMContext
 from aiogram.types import CallbackQuery
+from db.base import create_order
 
 
 class UserForm(StatesGroup):
+    product_id = State()
     name = State()
     age = State()
     address = State()
     day = State()
 
 
-async def start_user_dialog(message: types.Message):
+async def start_user_dialog(callback: types.CallbackQuery):
     """
-    Обработчик чтоб принять двнные о пользователе
+    сохраняем данные о товаре
     """
-    await UserForm.name.set()
-    await message.answer("Please input your name and last name:")
+    await UserForm.product_id.set()
+    state = UserForm.product_id
+    async with state.proxy() as data:
+        data['product_id'] = int(callback.data.replace('buy_product_',""))
+    await callback.message.answer("Please input your name and last name:")
+
+
+# async def start_user_dialog(message: types.Message):
+#     """
+#     Обработчик чтоб принять двнные о пользователе
+#     """
+#     await UserForm.name.set()
+#     await message.answer("Please input your name and last name:")
 
 async def process_name(message: types.Message, state: FSMContext):
     """
@@ -67,6 +80,9 @@ async def process_day(message: types.Message, state: FSMContext):
     """
     async with state.proxy() as data:
         data['day'] = message.text
+        #saving details of order
+        create_order(data)
+
         buttons = [
             types.InlineKeyboardButton(text='Yes', callback_data='yes'),
             types.InlineKeyboardButton(text='No', callback_data='no')
@@ -79,7 +95,7 @@ async def process_day(message: types.Message, state: FSMContext):
     await message.answer(f"Thank you for your order! Do you want leave a review {data['name']} ?",
                          reply_markup=kb)
 
-async def mail(callback: CallbackQuery):
+async def mail(callback: types.CallbackQuery):
     """
     обработчик чтоб принять сообщение
     """
@@ -94,7 +110,7 @@ async def mail(callback: CallbackQuery):
     )
 
 
-async def not_mail(callback: CallbackQuery):
+async def not_mail(callback: types.CallbackQuery):
     """
     обработчик чтоб попращаться
     """
@@ -104,3 +120,4 @@ async def not_mail(callback: CallbackQuery):
         text=f'{callback.from_user.first_name} Bye! See you soon!',
         chat_id=message.chat.id
     )
+
