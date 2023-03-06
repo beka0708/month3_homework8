@@ -3,7 +3,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher import FSMContext
 from aiogram.types import CallbackQuery
 from db.base import create_order
-
+from config import dp
 
 class UserForm(StatesGroup):
     product_id = State()
@@ -15,21 +15,17 @@ class UserForm(StatesGroup):
 
 async def start_user_dialog(callback: types.CallbackQuery):
     """
-    сохраняем данные о товаре
+     Обработчик чтоб принять двнные о пользователе и сохраняем данные о товаре
     """
     await UserForm.product_id.set()
-    state = UserForm.product_id
+    state = dp.current_state()
+    print(f"{callback.data=}")
+
     async with state.proxy() as data:
-        data['product_id'] = int(callback.data.replace('buy_product_',""))
+        data['product_id'] = int(callback.data.replace('buy_product_', ""))
+    await UserForm.next()
     await callback.message.answer("Please input your name and last name:")
 
-
-# async def start_user_dialog(message: types.Message):
-#     """
-#     Обработчик чтоб принять двнные о пользователе
-#     """
-#     await UserForm.name.set()
-#     await message.answer("Please input your name and last name:")
 
 async def process_name(message: types.Message, state: FSMContext):
     """
@@ -83,13 +79,13 @@ async def process_day(message: types.Message, state: FSMContext):
         #saving details of order
         create_order(data)
 
-        buttons = [
-            types.InlineKeyboardButton(text='Yes', callback_data='yes'),
-            types.InlineKeyboardButton(text='No', callback_data='no')
-        ]
-        kb = types.InlineKeyboardMarkup(row_width=2)
-        kb.add(*buttons)
-        print(data)
+    buttons = [
+        types.InlineKeyboardButton(text='Yes', callback_data='yes'),
+        types.InlineKeyboardButton(text='No', callback_data='no')
+    ]
+    kb = types.InlineKeyboardMarkup(row_width=2)
+    kb.add(*buttons)
+    print(data)
 
     await state.finish()
     await message.answer(f"Thank you for your order! Do you want leave a review {data['name']} ?",

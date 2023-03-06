@@ -21,7 +21,7 @@ def kb_buy(product_id: int):
     kb = types.InlineKeyboardMarkup()
     kb.add(types.InlineKeyboardButton(
         text="Buy",
-        calback_data=f'buy_product_{product_id}'))
+        callback_data=f'buy_product_{product_id}'))
     return kb
     # await message.answer("""
     # Каталог книг
@@ -29,11 +29,15 @@ def kb_buy(product_id: int):
 
 
 async def catalog(message: types.Message):
+    products = [
+        (1, 'The Witcher book 1', 500, 'images/witcher1.jpeg'),
+        (2, 'The Witcher book 2', 600, 'images/witcher2.jpeg'),
+        (3, 'The Witcher book 3', 700, 'images/witcher3.jpeg')]
     await message.answer(
         text="Наши товары:"
     )
-    for product in get_products():
-        print(product)
+    for product in products:
+        # print(product)
         # with open(product[3], 'rb') as image:
         await message.answer_photo(
                     photo=open(product[3],'rb'),

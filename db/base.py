@@ -24,7 +24,7 @@ def create_tables():
     ) """)
 
     cur.execute("""CREATE TABLE IF NOT EXISTS orders(
-    order_id INTEGER 
+    order_id INTEGER,
     user_name TEXT,
     address TEXT,
     product_id INTEGER,
@@ -58,9 +58,9 @@ def create_order(data):
         :product_id,
         :user_name,
         :address)""",
-        {'product_id':data['product_id'],
-        'user_name':data['name'],
-        'address':data['address']}
+        {'product_id': data['product_id'],
+        'user_name': data['name'],
+        'address': data['address']}
     )
     db.commit()
 
